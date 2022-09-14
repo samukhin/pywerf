@@ -4,7 +4,8 @@ from threading import Thread
 def check_process(process):
     while process_events.stdout.readable():
         line = process_events.stdout.readline()
-        print(line.strip())
+        if line:
+            print(line.split())
 
 
 process_events = subprocess.Popen('kubectl get events -A -o wide -w',
@@ -32,8 +33,9 @@ t_events = Thread(target=check_process, args=(process_events,))
 t_events.start()
 
 
-process_pods.wait()
-process_pods.join()
+#process_pods.wait()
+t_pods.join()
 
-process_events.wait()
-process_events.join()
+#process_events.wait()
+t_events.join()
+
