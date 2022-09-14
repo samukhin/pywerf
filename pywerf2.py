@@ -2,8 +2,8 @@ import subprocess
 from threading import Thread
 
 def check_process(process):
-    while process_events.stdout.readable():
-        line = process_events.stdout.readline()
+    while process.stdout.readable():
+        line = process.stdout.readline()
         if line:
             print(line.split())
 
@@ -29,13 +29,13 @@ process_pods = subprocess.Popen('kubectl get pods -A -o wide -w',
 t_pods = Thread(target=check_process, args=(process_pods,))
 t_pods.start()
 
-t_events = Thread(target=check_process, args=(process_events,))
-t_events.start()
+#t_events = Thread(target=check_process, args=(process_events,))
+#t_events.start()
 
 
 #process_pods.wait()
 t_pods.join()
 
 #process_events.wait()
-t_events.join()
+#t_events.join()
 
